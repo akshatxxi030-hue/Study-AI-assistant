@@ -2,3 +2,6 @@ langchain
 langgraph
 typing
 re
+langchain-community
+tavily-python
+langchain-google-genai

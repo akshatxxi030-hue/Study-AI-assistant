@@ -1,13 +1,13 @@
-from typing import TypedDict,List,Optional,Annotated
+from typing import TypedDict,List,Optional,Annotated,Literal
 import operator
-from schemas import Plan,EvidenceItem
+from CORE.schemas import Plan,EvidenceItem
 
 class State(TypedDict):
     
     topic:str
 
     # Router and research memory
-    needs_research:bool
+    needs_research:Literal["direct_answer","web_search"]
     queries:list[str]
     evidence:list[EvidenceItem]
 

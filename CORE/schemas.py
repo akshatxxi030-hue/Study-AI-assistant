@@ -8,7 +8,7 @@ class Task(BaseModel):
     goal:str = Field(...,description="One sentence describing what the what the reader should understand")
     bullets:List[str] = Field(min_length=3,max_length=8)
     target_words:int =Field(...,description="Traget words(200-600)")
-    needs_reserach:bool=False
+    needs_research:bool=False
     needs_references:bool=False
 
 
@@ -25,10 +25,11 @@ class EvidenceItem(BaseModel):
     url:str
     published_at:Optional[str]
     source:Optional[str]
+    image_url:List[str]= Field(default_factory=list)
 
 
 class RouterDecision(BaseModel):
-    needs_research:bool
+    needs_research:Literal["direct_answer","web_search"]
     reason:str
     queries:list[str]=Field(default_factory=list)
     max_results_per_query:int=Field(5)
