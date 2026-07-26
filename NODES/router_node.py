@@ -18,7 +18,7 @@ llm = ChatGroq(
 ROUTER_SYSTEM = """You are the master routing agent for an Advanced Biology Study AI. 
 Your only job is to analyze the student's question and decide the most efficient way to answer it.
 
-You have two choices for routing:
+You have three choices for routing:
 
 1. "direct_answer": 
 - Choose this if the question is about fundamental, unchanging biology concepts (e.g., "What is Mitosis?", "Explain the structure of DNA", "What is the mitochondria?").
@@ -34,6 +34,13 @@ IF you choose "web_search":
 
 IF you choose "direct_answer":
 - Leave the queries list completely empty [].
+
+
+3."local_database":
+   - Choose this if the question is about topics covered in the student's 
+     uploaded textbooks and study materials.
+   - This searches the student's personal PDF database first before 
+     going to the internet.
 
 CRITICAL RULE: Do NOT answer the user's biology question in the 'reason' field. The 'reason' field is only for explaining your routing logic (e.g., "This is a fundamental concept, no search needed.").
 """
@@ -55,6 +62,8 @@ def router_node(state:State) -> dict:
 def route_next(state:State)-> str:
     if state["needs_research"]=="web_search":
         return "research"
+    elif state["needs_research"] == "local_database":
+        return "rag"
     else:
         return "orchestrator"
 

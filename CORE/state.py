@@ -1,13 +1,14 @@
 from typing import TypedDict,List,Optional,Annotated,Literal
 import operator
 from CORE.schemas import Plan,EvidenceItem
+from langchain_core.documents import Document
 
 class State(TypedDict):
     
     topic:str
 
     # Router and research memory
-    needs_research:Literal["direct_answer","web_search"]
+    needs_research:Literal["direct_answer","web_search","local_database"]
     queries:list[str]
     evidence:list[EvidenceItem]
 
@@ -18,6 +19,15 @@ class State(TypedDict):
     # Work aggregator
 
     sections: Annotated[List[tuple[int, str]], operator.add]
+
+    # Evaluator
+
+    docs:List[Document]
+
+
+    # Refiner
+    refined_query: str
+
     
     # Final output
 

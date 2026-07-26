@@ -37,7 +37,7 @@ Only return the Markdown text for your specific section. Do not write an introdu
 
 
 def worker_node(payload:dict) -> dict:
-    time.sleep(random.randint(1, 15))
+    
     task = Task(**payload["task"])
     plan = Plan(**payload["plan"])
     evidence = [EvidenceItem(**e) for e in payload.get("evidence", [])]

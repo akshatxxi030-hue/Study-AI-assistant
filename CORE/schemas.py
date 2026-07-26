@@ -25,11 +25,14 @@ class EvidenceItem(BaseModel):
     url:str
     published_at:Optional[str]
     source:Optional[str]
+    content:str = Field(..., description="The actual extracted biological facts, text, or chunk.")
+    page_number: Optional[int] = None 
+    needs_web_fallback: bool
     image_url:List[str]= Field(default_factory=list)
 
 
 class RouterDecision(BaseModel):
-    needs_research:Literal["direct_answer","web_search"]
+    needs_research:Literal["direct_answer","web_search","local_database"]
     reason:str
     queries:list[str]=Field(default_factory=list)
     max_results_per_query:int=Field(5)
@@ -37,6 +40,17 @@ class RouterDecision(BaseModel):
 
 class EvidencePack(BaseModel):
     evidence:list[EvidenceItem]=Field(default_factory=list)
+
+
+class RetrievalEvaluation(BaseModel):
+    retrieval_quality: Literal["good", "partial", "poor"]
+    reason: str
+
+class RefinementDecision(BaseModel):
+    refined_query: str
+    reason: str
+
+
 
 
 class ImageSpec(BaseModel):

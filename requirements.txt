@@ -5,3 +5,5 @@ re
 langchain-community
 tavily-python
 langchain-google-genai
+langchain-pinecone
+pinecone
