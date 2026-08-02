@@ -52,7 +52,7 @@ RULES FOR EXTRACTION:
 You are the final filter. Ensure the data you output is flawless so the writer agent can rely on it perfectly.
 """
 
-def research_node(state:State) -> dict:
+async def research_node(state:State) -> dict:
     queries=state.get("queries",[])[:10]
     raw_results:List[dict]=[]
     all_images:List[str]=[]
@@ -67,7 +67,7 @@ def research_node(state:State) -> dict:
     
 
     extractor=llm.with_structured_output(EvidencePack)
-    pack: EvidencePack = extractor.invoke(
+    pack: EvidencePack = await extractor.ainvoke(
         [
             SystemMessage(content=RESEARCH_SYSTEM),
             HumanMessage(

@@ -31,11 +31,11 @@ Your Plan will be handed to parallel worker agents. The success of the final rep
 """
 
 
-def orchestrator_node(state:State) -> dict:
+async def orchestrator_node(state:State) -> dict:
     planner=llm.with_structured_output(Plan)
     evidence=state.get("evidence",[])
 
-    plan=planner.invoke(
+    plan=await planner.invoke(
         [
             SystemMessage(content=ORCHESTRATOR_SYSTEM),
             HumanMessage(content=

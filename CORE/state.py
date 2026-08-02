@@ -28,6 +28,13 @@ class State(TypedDict):
     # Refiner
     refined_query: str
 
+    good_docs: List[Document]
+    partial_docs: List[Document]
+    poor_docs: List[Document]
+    user_choice: str
+    refinement_attempts: int
+
+    
     
     # Final output
 

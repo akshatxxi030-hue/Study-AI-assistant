@@ -36,7 +36,7 @@ Only return the Markdown text for your specific section. Do not write an introdu
 """
 
 
-def worker_node(payload:dict) -> dict:
+async def worker_node(payload:dict) -> dict:
     
     task = Task(**payload["task"])
     plan = Plan(**payload["plan"])
@@ -44,7 +44,7 @@ def worker_node(payload:dict) -> dict:
     
     bullets_text = "\n- " + "\n- ".join(task.bullets)
     
-    section_response = llm.invoke([
+    section_response = await llm.ainvoke([
         SystemMessage(content=WORKER_SYSTEM),
         HumanMessage(
             content=(

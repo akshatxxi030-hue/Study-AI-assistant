@@ -23,6 +23,7 @@ You have three choices for routing:
 1. "direct_answer": 
 - Choose this if the question is about fundamental, unchanging biology concepts (e.g., "What is Mitosis?", "Explain the structure of DNA", "What is the mitochondria?").
 - These are questions you can answer confidently from your internal training data without hallucinating.
+- Direct_answer is for definitions and concepts that are the same regardless of source — any textbook, any course, would explain them identically. local_database is for anything where the specific source matters — the student's own materials, their professor's framing, examples or diagrams unique to their course — even if they don't explicitly say 'my textbook' or 'page X'."
 
 2. "web_search": 
 - Choose this if the question is about recent discoveries, highly specific clinical trials, cutting-edge CRISPR technology, or extremely niche bioinformatics.
@@ -45,9 +46,9 @@ IF you choose "direct_answer":
 CRITICAL RULE: Do NOT answer the user's biology question in the 'reason' field. The 'reason' field is only for explaining your routing logic (e.g., "This is a fundamental concept, no search needed.").
 """
 
-def router_node(state:State) -> dict:
+async def router_node(state:State) -> dict:
     decider=llm.with_structured_output(RouterDecision)
-    decision=decider.invoke(
+    decision=await decider.ainvoke(
         [
         SystemMessage(content=ROUTER_SYSTEM),
         HumanMessage(content=f"Topic:{state['topic']}")
@@ -63,7 +64,7 @@ def route_next(state:State)-> str:
     if state["needs_research"]=="web_search":
         return "research"
     elif state["needs_research"] == "local_database":
-        return "rag"
+        return "local_database"
     else:
         return "orchestrator"
 
