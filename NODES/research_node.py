@@ -6,13 +6,12 @@ from CORE.schemas import EvidenceItem,EvidencePack,RouterDecision
 from dotenv import load_dotenv
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm=ChatGoogleGenerativeAI(
-     model="gemini-flash-latest",
-     temperature=0.0 
-)
+llm=ChatGroq(model="llama-3.1-8b-instant",
+             temperature=0)
 
 
 
@@ -52,33 +51,35 @@ RULES FOR EXTRACTION:
 You are the final filter. Ensure the data you output is flawless so the writer agent can rely on it perfectly.
 """
 
-async def research_node(state:State) -> dict:
-    queries=state.get("queries",[])[:10]
-    raw_results:List[dict]=[]
-    all_images:List[str]=[]
+async def research_node(state: State) -> dict:
+    queries = state.get("queries", [])[:3]  # cut from 10 → 5 queries
+    raw_results: List[dict] = []
+    all_images: List[str] = []
 
     for q in queries:
-        search_data = tavily_search(q,max_results=6)
+        search_data = tavily_search(q, max_results=3)  # cut from 6 → 3 per query
         raw_results.extend(search_data["results"])
         all_images.extend(search_data["images"])
 
     if not raw_results:
-        return {"evidence":[]}
-    
+        return {"evidence": []}
 
-    extractor=llm.with_structured_output(EvidencePack)
-    pack: EvidencePack = await extractor.ainvoke(
-        [
-            SystemMessage(content=RESEARCH_SYSTEM),
-            HumanMessage(
-                content=(
-                    f"Topic: {state['topic']}\n"
-                    f"Raw results to clean:\n{raw_results}\n"
-                    f"Available Image URLs:\n{all_images[:10]}"
-                )
-            ),
-        ]
-    )
+    # Truncate each result's content before stringifying the whole list
+    trimmed_results = [
+        {**r, "content": r.get("content", "")[:500]}
+        for r in raw_results
+    ]
+
+    extractor = llm.with_structured_output(EvidencePack)
+    pack: EvidencePack = await extractor.ainvoke([
+        SystemMessage(content=RESEARCH_SYSTEM),
+        HumanMessage(content=(
+            f"Topic: {state['topic']}\n"
+            f"Raw results to clean:\n{trimmed_results}\n"
+            f"Available Image URLs:\n{all_images[:10]}"
+        ))
+    ])
+    # ... rest unchanged
 
     dedup = {}
     for e in pack.evidence:

@@ -24,6 +24,8 @@ class State(TypedDict):
 
     docs:List[Document]
 
+    final_answer: Optional[str]
+
 
     # Refiner
     refined_query: str

@@ -61,17 +61,13 @@ async def router_node(state:State) -> dict:
 
 
 def route_next(state:State)-> str:
-    if state["needs_research"]=="web_search":
+    if state["needs_research"] == "web_search":
         return "research"
     elif state["needs_research"] == "local_database":
         return "local_database"
+    elif state["needs_research"] == "direct_answer":
+        return "direct_answer"
     else:
         return "orchestrator"
-
-
-
-
-    
-
 
 

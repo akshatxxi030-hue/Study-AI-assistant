@@ -13,4 +13,4 @@ def merge_node(state:State) -> dict:
     title = plan.research_title if plan else state.get("topic", "Biology Report")
     final_markdown = f"# {title}\n\n{body_text}\n"
 
-    return {"merged_md":final_markdown}
+    return {"final_answer":final_markdown}

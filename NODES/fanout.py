@@ -7,13 +7,15 @@ from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.types import Send
 from CORE.state import State
+from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm=ChatGoogleGenerativeAI(
-     model="gemini-1.5-flash",
-     temperature=0.0 
-)
+llm=ChatGroq(model="llama-3.1-8b-instant",
+             temperature=0)
+
+
+
 
 
 

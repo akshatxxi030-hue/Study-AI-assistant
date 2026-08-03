@@ -5,13 +5,14 @@ from CORE.schemas import EvidenceItem,EvidencePack,RouterDecision,Plan
 from dotenv import load_dotenv
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm=ChatGoogleGenerativeAI(
-     model="gemini-flash-latest",
-     temperature=0.0 
-)
+llm=ChatGroq(model="llama-3.1-8b-instant",
+             temperature=0)
+
+
 
 
 ORCHESTRATOR_SYSTEM = """You are the Master Curriculum Architect for an Advanced Biology Study AI.

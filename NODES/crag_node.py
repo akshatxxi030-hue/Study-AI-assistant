@@ -4,7 +4,7 @@ from CORE.state import State
 from CORE.schemas import EvidenceItem,RetrievalEvaluation,RefinementDecision
 from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.types import interrupt 
-
+from langchain_groq import ChatGroq
 load_dotenv()
 
 
@@ -33,7 +33,10 @@ Rules:
 - poor -> documents are mostly irrelevant or insufficient.
 """
 
-llm=[]
+llm=ChatGroq(model="llama-3.1-8b-instant",
+             temperature=0)
+
+
 
 
 async def evaluator_node(state:State) -> dict:
