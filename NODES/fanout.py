@@ -11,8 +11,7 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm=ChatGroq(model="llama-3.1-8b-instant",
-             temperature=0)
+llm=ChatGroq(model="openai/gpt-oss-120b", temperature=0.0)
 
 
 

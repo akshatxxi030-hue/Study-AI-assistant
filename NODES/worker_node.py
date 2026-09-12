@@ -11,9 +11,7 @@ import random
 
 load_dotenv()
 
-llm=ChatGroq(model="llama-3.1-8b-instant", 
-     temperature=0.0 
-)
+llm=ChatGroq(model="openai/gpt-oss-120b", temperature=0.0)
 
 
 WORKER_SYSTEM = """You are an Expert Academic Writer for a Biology Study AI.

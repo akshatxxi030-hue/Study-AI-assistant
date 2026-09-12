@@ -50,6 +50,13 @@ class RefinementDecision(BaseModel):
     refined_query: str
     reason: str
 
+class ChatRequest(BaseModel):
+    message:str
+    session_id:Optional[str]=None
+
+class ResumeRequest(BaseModel):
+    session_id: str
+    choice: str  
 
 
 

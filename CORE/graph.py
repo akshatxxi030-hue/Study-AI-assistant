@@ -50,14 +50,17 @@ g.add_conditional_edges("hitl_decision", route_after_hitl, {
     "research": "research"
 })
 
+# Direct answer path
+g.add_edge("direct_answer", END)
+
 g.add_edge("research", "orchestrator")
 
 g.add_conditional_edges("orchestrator", fanout_to_workers, ["worker"])
 g.add_edge("worker", "reducer")
 g.add_edge("reducer", END)
 
-async def build_graph():
-    checkpointer = AsyncPostgresSaver.from_conn_string(os.getenv("SUPABASE_DATABASE_URL"))
-    await checkpointer.setup()
-    app = g.compile(checkpointer=checkpointer)
-    return app
+from langgraph.checkpoint.memory import MemorySaver
+
+memory = MemorySaver()
+app = g.compile(checkpointer=memory)
+

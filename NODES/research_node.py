@@ -10,14 +10,13 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm=ChatGroq(model="llama-3.1-8b-instant",
-             temperature=0)
+llm=ChatGroq(model="openai/gpt-oss-120b", temperature=0.0)
 
 
 
 from tavily import TavilyClient
 
-def tavily_search(query:str , max_results:int=5) -> dict:
+def tavily_search(query:str , max_results:int=3) -> dict:
     if not os.getenv("TAVILY_API_KEY"):
         print("WARNING : TAVILY_API_KEY not found.")
         return {"results": [], "images": []}
@@ -52,7 +51,7 @@ You are the final filter. Ensure the data you output is flawless so the writer a
 """
 
 async def research_node(state: State) -> dict:
-    queries = state.get("queries", [])[:3]  # cut from 10 → 5 queries
+    queries = state.get("queries", [])[:3]  
     raw_results: List[dict] = []
     all_images: List[str] = []
 

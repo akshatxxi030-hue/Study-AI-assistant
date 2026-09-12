@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biology Research Assistant</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Highlight.js CSS for Code Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- KaTeX CSS for LaTeX Formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    
+    <!-- Professional Dark Theme CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-microscope"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h2>BioAssistant</h2>
+                    </div>
+                </div>
+                <button class="sidebar-close-btn" id="sidebar-close-btn" title="Close Sidebar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <button class="btn-new-chat" id="btn-new-chat">
+                <i class="fa-solid fa-plus"></i>
+                <span>New Session</span>
+            </button>
+
+            <!-- PDF Knowledge Base Section -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <span class="section-title">Knowledge Base</span>
+                </div>
+                
+                <div class="pdf-dropzone" id="pdf-dropzone">
+                    <input type="file" id="pdf-file-input" accept=".pdf" hidden>
+                    <div class="dropzone-content">
+                        <i class="fa-solid fa-file-arrow-up drop-icon"></i>
+                        <p class="dropzone-text">Upload PDF Document</p>
+                        <span class="dropzone-sub">Drag & drop or click</span>
+                    </div>
+                    <div class="upload-progress-bar" id="upload-progress" style="width: 0%;"></div>
+                </div>
+
+                <div class="uploaded-files-list" id="uploaded-files-list">
+                    <div class="empty-files-hint">No PDF documents attached</div>
+                </div>
+            </div>
+
+            <!-- Study Sessions History -->
+            <div class="sidebar-section sessions-section">
+                <div class="section-header">
+                    <span class="section-title">Recent History</span>
+                </div>
+                <div class="session-list" id="session-list">
+                    <!-- Session Items -->
+                </div>
+            </div>
+
+            <!-- Footer / Clean Status -->
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <div class="status-indicator online" id="backend-status-dot" title="Server Status"></div>
+                    <span class="status-label" id="backend-status-text">Connected</span>
+                </div>
+                <button class="btn-icon" id="btn-settings" title="Connection Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Top Navigation Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <button class="menu-toggle-btn" id="menu-toggle-btn" title="Toggle Sidebar">
+                        <i class="fa-solid fa-bars-staggered"></i>
+                    </button>
+                    <div class="active-session-title" id="active-session-title">
+                        <span>Biology Research Assistant</span>
+                    </div>
+                </div>
+                <div class="top-bar-right">
+                    <button class="btn-secondary" id="btn-upload-modal-trigger">
+                        <i class="fa-solid fa-paperclip"></i>
+                        <span>Attach PDF</span>
+                    </button>
+                    <button class="btn-icon" id="btn-clear-chat" title="Clear Workspace">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Chat / Content Stream Area -->
+            <div class="chat-container" id="chat-container">
+                
+                <!-- Welcome Screen -->
+                <div class="welcome-hero" id="welcome-hero">
+                    <h1 class="hero-title">Biology Research & Study Assistant</h1>
+                    <p class="hero-subtitle">
+                        Ask biological questions or upload textbook PDFs to extract structured notes and research guidance.
+                    </p>
+
+                    <div class="prompt-grid">
+                        <div class="prompt-card" data-prompt="Explain CRISPR-Cas9 gene editing mechanism with step-by-step molecular details">
+                            <h3>CRISPR-Cas9 Mechanism</h3>
+                            <p>gRNA targeting, Cas9 cleavage, and double-strand repair pathways.</p>
+                        </div>
+
+                        <div class="prompt-card" data-prompt="Compare Mitosis vs Meiosis including chromosome count, crossing over, and cellular outcomes">
+                            <h3>Mitosis vs Meiosis</h3>
+                            <p>Comparative summary of chromosome mechanics and division stages.</p>
+                        </div>
+
+                        <div class="prompt-card" data-prompt="How does ATP Synthase generate energy in Mitochondria during Oxidative Phosphorylation?">
+                            <h3>ATP Synthase Dynamics</h3>
+                            <p>Proton gradient kinetics, rotor rotation, and phosphorylation yield.</p>
+                        </div>
+
+                        <div class="prompt-card" data-prompt="Explain Central Dogma of Molecular Biology: Transcription, Translation, and RNA Processing">
+                            <h3>Central Dogma</h3>
+                            <p>DNA replication, mRNA transcription, splicing, and translation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Chat Messages List -->
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Dynamic Messages Inserted Here -->
+                </div>
+
+            </div>
+
+            <!-- Bottom Input Floating Bar -->
+            <div class="input-area-wrapper">
+                <div class="input-container">
+                    <textarea 
+                        id="chat-input" 
+                        placeholder="Message Biology Assistant..." 
+                        rows="1"></textarea>
+                    
+                    <div class="input-actions">
+                        <button class="input-btn" id="btn-quick-upload" title="Attach Document">
+                            <i class="fa-solid fa-paperclip"></i>
+                        </button>
+                        <button class="btn-send" id="btn-send" title="Send Message">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-disclaimer">
+                    <span>AI-generated response. Verify critical medical or biological information.</span>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Server Configuration</h3>
+                <button class="modal-close-btn" id="close-settings-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <label for="backend-url-input">API Server Base URL:</label>
+                <input type="text" id="backend-url-input" class="modal-input" value="http://localhost:8000">
+                <p class="modal-help">Default: <code>http://localhost:8000</code></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="btn-test-connection">Test</button>
+                <button class="btn-primary" id="btn-save-settings">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- External Libraries JS -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <!-- Custom Application Logic JS -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

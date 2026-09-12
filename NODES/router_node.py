@@ -1,17 +1,13 @@
 import os
-from typing import List
 from CORE.state import State
-from CORE.schemas import EvidenceItem,EvidencePack,RouterDecision
+from CORE.schemas import RouterDecision
 from dotenv import load_dotenv
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm = ChatGroq(
-     model="llama-3.1-8b-instant",
-     temperature=0.0 
-)
+llm = ChatGroq(model="openai/gpt-oss-20b", temperature=0.0)
 
 
 

@@ -9,8 +9,7 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm=ChatGroq(model="llama-3.1-8b-instant",
-             temperature=0)
+llm=ChatGroq(model="openai/gpt-oss-20b", temperature=0.0)
 
 
 
@@ -36,7 +35,7 @@ async def orchestrator_node(state:State) -> dict:
     planner=llm.with_structured_output(Plan)
     evidence=state.get("evidence",[])
 
-    plan=await planner.invoke(
+    plan=await planner.ainvoke(
         [
             SystemMessage(content=ORCHESTRATOR_SYSTEM),
             HumanMessage(content=

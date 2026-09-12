@@ -8,10 +8,7 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
-llm = ChatGroq(
-    model="llama-3.1-8b-instant",
-    temperature=0.0
-)
+llm = ChatGroq(model="openai/gpt-oss-20b", temperature=0.0)
 
 DIRECT_ANSWER_SYSTEM = """You are a concise biology expert. Answer the user's question directly based on your internal knowledge. Do not hallucinate; if you are unsure, respond that the information is not available."""
 
